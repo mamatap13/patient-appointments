@@ -9,11 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Retention;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/patients")
@@ -30,6 +28,15 @@ public class PatientController {
     public ResponseEntity<List<Patient>> getAllPatients() {
         List<Patient> patients = patientService.getAllPatients();
         return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
+        Optional<Patient> patient = patientService.getPatientById(id);
+
+        return patient.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+
+
     }
 
     @GetMapping("/name/{name}")
@@ -88,29 +95,20 @@ public class PatientController {
         }
     }
     @PostMapping("/multiple")
-    public ResponseEntity<Map<String, Object>> createMultiplePatients(@RequestBody List<Patient> patients) {
-        try{
-            List<Patient> newPatients = patientService.createMultiplePatients(patients);
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", HttpStatus.OK.value());
-            response.put("message", newPatients.size() + "patients created successfully.");
-            response.put("data", newPatients);
-            return ResponseEntity.ok(response);
-        } catch(PatientException exception) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", HttpStatus.BAD_REQUEST.value());
-            response.put("message", exception.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Map<Patient, String>> createMultiplePatients(@RequestBody List<Patient> patients) {
+        Map<Patient, String> newPatients = patientService.createMultiplePatients(patients);
+        return ResponseEntity.ok(newPatients);
     }
 
-//    @DeleteMapping
-//    public ResponseEntity<Patient> deletePatient(@PathVariable String name, @PathVariable LocalDateTime dob) {
-//        Patient patient = patientService.getPatientByName(name);
-//        patientService.deletePatient(patient);
-//    }
+    @DeleteMapping("/{patientId}")
+    public ResponseEntity<Void> deletePatient(@PathVariable Long patientId) {
+        try{
+            patientService.deletePatient(patientId);
+            return ResponseEntity.ok().build();
+        } catch (PatientException patientException) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 }

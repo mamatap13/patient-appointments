@@ -19,6 +19,10 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName(){
         return name;
     }
@@ -27,6 +31,9 @@ public class Patient {
         return dateOfBirth;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
     public void setName(String name) {
         this.name = name;
     }

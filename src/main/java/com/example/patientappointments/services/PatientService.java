@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PatientService {
@@ -23,6 +21,10 @@ public class PatientService {
 
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();
+    }
+
+    public Optional<Patient> getPatientById(Long id) {
+        return patientRepository.findById(id);
     }
 
     public List<Patient> getPatientByName(String name) {
@@ -46,26 +48,26 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
-    public List<Patient> createMultiplePatients(List<Patient> patients) {
-        List<Patient> newPatients = new ArrayList<>();
-        int existingPatientCount = 0;
+    public Map<Patient, String> createMultiplePatients(List<Patient> patients) {
+        Map<Patient, String> newPatients = new LinkedHashMap<>();
+
         for(Patient patient : patients) {
             Optional<Patient> existingPatient = patientRepository.findPatientByNameAndDateOfBirth(
                     patient.getName(), patient.getDateOfBirth());
-            if(existingPatient.isPresent()) {
-                // skip existing patient
-                existingPatientCount++;
-                continue;
-            }
 
-            newPatients.add(patient);
+            if(existingPatient.isPresent()) {
+                newPatients.put(patient, "Creation failed, patient already exists");
+            } else {
+                patientRepository.save(patient);
+                newPatients.put(patient, "Creation successful");
+            }
         }
 
-        return patientRepository.saveAll(patients);
+        return newPatients;
     }
 
-    public void deletePatient(Patient patient) {
-        patientRepository.delete(patient);
+    public void deletePatient(Long patientId) {
+        patientRepository.deleteById(patientId);
     }
 
 

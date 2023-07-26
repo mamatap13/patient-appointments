@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
+
     List<Patient> findByName(String name);
 
     List<Patient> findByDateOfBirth(LocalDate dateOfBirth);
