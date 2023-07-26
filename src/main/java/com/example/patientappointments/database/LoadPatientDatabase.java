@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class LoadPatientDatabase {
@@ -17,14 +18,15 @@ public class LoadPatientDatabase {
     @Bean
     CommandLineRunner initPatientDatabase(PatientRepository patientRepository) {
         return args -> {
-            log.info("Preloading " + patientRepository.save(new Patient("George Washington",
-                    LocalDate.of(1732, 2,22))));
-            log.info("Preloading " + patientRepository.save(new Patient("John Adams",
-                    LocalDate.of(1735, 10,30))));
-            log.info("Preloading " + patientRepository.save(new Patient("Thomas Jefferson",
-                    LocalDate.of(1743, 4,13))));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            log.info("Preloading " + patientRepository.save(new Patient("Justin Trudeau",
+                    LocalDate.parse("12-25-1971", formatter))));
+            log.info("Preloading " + patientRepository.save(new Patient("Kamala Harris",
+                    LocalDate.parse("10-20-1964", formatter))));
+            log.info("Preloading " + patientRepository.save(new Patient("Jill Biden",
+                    LocalDate.parse("06-03-1951", formatter))));
             log.info("Preloading " + patientRepository.save(new Patient("Joe Biden",
-                    LocalDate.of(1942, 11,20))));
+                    LocalDate.parse("11-20-1942", formatter))));
         };
     }
 
