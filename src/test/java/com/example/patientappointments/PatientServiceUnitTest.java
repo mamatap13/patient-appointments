@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PatientServiceUnitTest {
@@ -19,9 +21,16 @@ public class PatientServiceUnitTest {
     private PatientService patientService;
 
     @Test
-    public void whenApplicationStarts_thenHibernateCreatesInitialRecords() {
+    void testGetAllPatients() {
         List<Patient> patients = patientService.getAllPatients();
-        Assert.assertEquals(4, patients.size());
+        assertEquals(4, patients.size());
     }
 
+    void testGetPatientById() {
+//        Patient patient = patientService.getPatientById();
+    }
+
+    void testGetPatientByName() {
+
+    }
 }

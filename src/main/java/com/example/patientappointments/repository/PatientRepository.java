@@ -16,7 +16,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByDateOfBirth(LocalDate dateOfBirth);
 
-    List<Patient> findByPatientNameIgnoreCaseAndDateOfBirth(String patientName, LocalDate dateOfBirth);
+    Patient findByPatientNameIgnoreCaseAndDateOfBirth(String patientName, LocalDate dateOfBirth);
 
     Optional<Patient> findPatientByPatientNameIgnoreCaseAndDateOfBirth(String patientName, LocalDate datOfBirth);
 

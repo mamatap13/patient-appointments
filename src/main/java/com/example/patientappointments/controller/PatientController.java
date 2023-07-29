@@ -24,12 +24,27 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+    /**
+     * Get All Patients API
+     * Find all patients in the database
+     *
+     * @return list of all patients
+     */
     @GetMapping
     public ResponseEntity<List<Patient>> getAllPatients() {
         List<Patient> patients = patientService.getAllPatients();
         return ResponseEntity.ok(patients);
     }
 
+    /**
+     * Get Patients By Id API
+     * Takes in a patient id and finds patient associated with that id
+     *
+     * api/patients/id/1
+     *
+     * @param id
+     * @return Patient
+     */
     @GetMapping("/id/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
         Optional<Patient> patient = patientService.getPatientById(id);
@@ -37,6 +52,16 @@ public class PatientController {
         return patient.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Get Patient By Name API
+     * Take in a patient name and find patient with that name
+     * (may have multiple patients with same name)
+     *
+     * api/patients/name/Kamala%20Harris
+     *
+     * @param name
+     * @return list of patients
+     */
     @GetMapping("/name/{name}")
     public ResponseEntity<Optional<Patient>> getPatientByName(@PathVariable String name) {
         Optional<Patient> patients = patientService.getPatientByName(name);
@@ -58,12 +83,12 @@ public class PatientController {
         }
     }
     @GetMapping("/name-and-dob")
-    public ResponseEntity<List<Patient>> getPatientByNameAndDateOfBirth(
+    public ResponseEntity<Patient> getPatientByNameAndDateOfBirth(
             @RequestParam String name,
             @RequestParam @DateTimeFormat(pattern="MM-dd-yyyy") LocalDate dateOfBirth) {
-        List<Patient> patients = patientService.getPatientByNameAndDateOfBirth(name, dateOfBirth);
-        if(patients != null) {
-            return ResponseEntity.ok(patients);
+        Patient patient = patientService.getPatientByNameAndDateOfBirth(name, dateOfBirth);
+        if(patient != null) {
+            return ResponseEntity.ok(patient);
         } else {
             return ResponseEntity.notFound().build();
         }

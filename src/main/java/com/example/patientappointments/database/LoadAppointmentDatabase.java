@@ -1,9 +1,7 @@
 package com.example.patientappointments.database;
 
 import com.example.patientappointments.model.Appointment;
-import com.example.patientappointments.model.Patient;
 import com.example.patientappointments.repository.AppointmentRepository;
-import com.example.patientappointments.repository.PatientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 

@@ -29,6 +29,12 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
+    /**
+     * Get All Appointments API
+     * Find all appointments in the database
+     *
+     * @return list of all appointments
+     */
     @GetMapping
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
@@ -37,7 +43,7 @@ public class AppointmentController {
 
     /**
      * Appointments By Patient Name API
-     * This api takes in a patient's name and finds the appointments associated with that patient
+     * Takes in a patient's name and finds the appointments associated with that patient
      *
      * On success: returns a list of appointments for this patient
      *             if no patient name is found, returns an empty list
@@ -51,8 +57,18 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
+    /**
+     * Get Appointments By Patient Name API
+     * Takes in a patient's name and find all appointments associated with that name
+     * May have multiple patients with the same name
+     *
+     * api/date?appointmentDate=
+     *
+     * @param appointmentDate
+     * @return list of appointments
+     */
     @GetMapping("/date")
-    public ResponseEntity<List<Appointment>> getAppointmentsByPatientName(@RequestParam("appointmentDate") LocalDate appointmentDate) {
+    public ResponseEntity<List<Appointment>> getAppointmentsByPatientDate(@RequestParam("appointmentDate") LocalDate appointmentDate) {
         List<Appointment> appointments = appointmentService.getAppointmentsByDate(appointmentDate);
         return ResponseEntity.ok(appointments);
     }
