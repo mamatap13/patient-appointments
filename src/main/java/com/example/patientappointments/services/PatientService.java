@@ -28,11 +28,11 @@ public class PatientService {
     }
 
     public Optional<Patient> getPatientByName(String patientName) {
-        return patientRepository.findByPatientName(patientName);
+        return patientRepository.findByPatientNameIgnoreCase(patientName);
     }
 
     public Long getPatientIdByNameAndDateOfBirth(String patientName, LocalDate dateOfBirth) {
-        Optional<Patient> patient = patientRepository.findPatientByPatientNameAndDateOfBirth(patientName, dateOfBirth);
+        Optional<Patient> patient = patientRepository.findPatientByPatientNameIgnoreCaseAndDateOfBirth(patientName, dateOfBirth);
         if(patient.isPresent()) {
             return patient.get().getId();
         }
@@ -44,11 +44,11 @@ public class PatientService {
     }
 
     public List<Patient> getPatientByNameAndDateOfBirth(String patientName, LocalDate dateOfBirth) {
-        return patientRepository.findByPatientNameAndDateOfBirth(patientName, dateOfBirth);
+        return patientRepository.findByPatientNameIgnoreCaseAndDateOfBirth(patientName, dateOfBirth);
     }
 
     public Patient createPatient(Patient patient) {
-        Optional<Patient> existingPatient = patientRepository.findPatientByPatientNameAndDateOfBirth(
+        Optional<Patient> existingPatient = patientRepository.findPatientByPatientNameIgnoreCaseAndDateOfBirth(
                 patient.getPatientName(), patient.getDateOfBirth());
         if(existingPatient.isPresent()) {
             throw new PatientException("Patient with the given name and date of birth already exists");
@@ -60,7 +60,7 @@ public class PatientService {
         Map<Patient, String> newPatients = new LinkedHashMap<>();
 
         for(Patient patient : patients) {
-            Optional<Patient> existingPatient = patientRepository.findPatientByPatientNameAndDateOfBirth(
+            Optional<Patient> existingPatient = patientRepository.findPatientByPatientNameIgnoreCaseAndDateOfBirth(
                     patient.getPatientName(), patient.getDateOfBirth());
 
             if(existingPatient.isPresent()) {

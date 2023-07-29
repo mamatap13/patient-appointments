@@ -49,7 +49,7 @@ public class AppointmentService {
     }
 
     public List<Appointment> getAppointmentsByPatientName(String patientName) {
-        List<Appointment> appointments = appointmentRepository.findAppointmentsByPatientName(patientName);
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByPatientNameIgnoreCase(patientName);
         for(Appointment appointment : appointments) {
             String name = getPatientNameById(appointment.getPatientID());
             appointment.setPatientName(name);

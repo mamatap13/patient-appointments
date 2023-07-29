@@ -40,7 +40,7 @@ public class PatientController {
     @GetMapping("/name/{name}")
     public ResponseEntity<Optional<Patient>> getPatientByName(@PathVariable String name) {
         Optional<Patient> patients = patientService.getPatientByName(name);
-        if(patients != null) {
+        if(patients.isPresent()) {
             return ResponseEntity.ok(patients);
         } else {
             return ResponseEntity.notFound().build();
