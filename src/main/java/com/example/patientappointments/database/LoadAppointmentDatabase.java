@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class LoadAppointmentDatabase {
@@ -20,14 +22,16 @@ public class LoadAppointmentDatabase {
     @Bean
     CommandLineRunner initApptDatabase(AppointmentRepository appointmentRepository) {
         return args -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
             log.info("Preloading " + appointmentRepository.save(new Appointment(1L,
-                    LocalDateTime.of(2023, 10,22, 10, 30))));
+                    LocalDate.parse("10-22-2023", formatter), LocalTime.of(10,30))));
             log.info("Preloading " + appointmentRepository.save(new Appointment(2L,
-                    LocalDateTime.of(2023, 8,30, 10, 15))));
+                    LocalDate.parse("08-30-2023", formatter), LocalTime.of(12, 15))));
             log.info("Preloading " + appointmentRepository.save(new Appointment(4L,
-                    LocalDateTime.of(2023, 11, 15, 10, 00))));
+                    LocalDate.parse("11-15-2023", formatter), LocalTime.of(16, 00))));
             log.info("Preloading " + appointmentRepository.save(new Appointment(2L,
-                    LocalDateTime.of(2023, 11,15, 10, 30))));
+                    LocalDate.parse("11-15-2023", formatter), LocalTime.of(13, 30))));
         };
     }
 
