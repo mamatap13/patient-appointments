@@ -12,13 +12,13 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
 
-    List<Patient> findByName(String name);
+    Optional<Patient> findByPatientName(String patientName);
 
     List<Patient> findByDateOfBirth(LocalDate dateOfBirth);
 
-    List<Patient> findByNameAndDateOfBirth(String name, LocalDate dateOfBirth);
+    List<Patient> findByPatientNameAndDateOfBirth(String patientName, LocalDate dateOfBirth);
 
-    Optional<Patient> findPatientByNameAndDateOfBirth(String name, LocalDate datOfBirth);
+    Optional<Patient> findPatientByPatientNameAndDateOfBirth(String patientName, LocalDate datOfBirth);
 
 
 }

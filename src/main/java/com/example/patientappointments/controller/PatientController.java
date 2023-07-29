@@ -35,13 +35,11 @@ public class PatientController {
         Optional<Patient> patient = patientService.getPatientById(id);
 
         return patient.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-
-
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<Patient>> getPatientByName(@PathVariable String name) {
-        List<Patient> patients = patientService.getPatientByName(name);
+    public ResponseEntity<Optional<Patient>> getPatientByName(@PathVariable String name) {
+        Optional<Patient> patients = patientService.getPatientByName(name);
         if(patients != null) {
             return ResponseEntity.ok(patients);
         } else {

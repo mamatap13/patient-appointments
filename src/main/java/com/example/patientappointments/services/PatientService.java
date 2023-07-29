@@ -27,21 +27,29 @@ public class PatientService {
         return patientRepository.findById(id);
     }
 
-    public List<Patient> getPatientByName(String name) {
-        return  patientRepository.findByName(name);
+    public Optional<Patient> getPatientByName(String patientName) {
+        return patientRepository.findByPatientName(patientName);
+    }
+
+    public Long getPatientIdByNameAndDateOfBirth(String patientName, LocalDate dateOfBirth) {
+        Optional<Patient> patient = patientRepository.findPatientByPatientNameAndDateOfBirth(patientName, dateOfBirth);
+        if(patient.isPresent()) {
+            return patient.get().getId();
+        }
+        throw new PatientException("Patient does not exists");
     }
 
     public List<Patient> getPatientByDateOfBirth(LocalDate dateOfBirth) {
         return patientRepository.findByDateOfBirth(dateOfBirth);
     }
 
-    public List<Patient> getPatientByNameAndDateOfBirth(String name, LocalDate dateOfBirth) {
-        return patientRepository.findByNameAndDateOfBirth(name, dateOfBirth);
+    public List<Patient> getPatientByNameAndDateOfBirth(String patientName, LocalDate dateOfBirth) {
+        return patientRepository.findByPatientNameAndDateOfBirth(patientName, dateOfBirth);
     }
 
     public Patient createPatient(Patient patient) {
-        Optional<Patient> existingPatient = patientRepository.findPatientByNameAndDateOfBirth(
-                patient.getName(), patient.getDateOfBirth());
+        Optional<Patient> existingPatient = patientRepository.findPatientByPatientNameAndDateOfBirth(
+                patient.getPatientName(), patient.getDateOfBirth());
         if(existingPatient.isPresent()) {
             throw new PatientException("Patient with the given name and date of birth already exists");
         }
@@ -52,8 +60,8 @@ public class PatientService {
         Map<Patient, String> newPatients = new LinkedHashMap<>();
 
         for(Patient patient : patients) {
-            Optional<Patient> existingPatient = patientRepository.findPatientByNameAndDateOfBirth(
-                    patient.getName(), patient.getDateOfBirth());
+            Optional<Patient> existingPatient = patientRepository.findPatientByPatientNameAndDateOfBirth(
+                    patient.getPatientName(), patient.getDateOfBirth());
 
             if(existingPatient.isPresent()) {
                 newPatients.put(patient, "Creation failed, patient already exists");

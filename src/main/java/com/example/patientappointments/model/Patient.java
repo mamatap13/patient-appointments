@@ -9,34 +9,34 @@ import java.time.LocalDate;
 @Entity
 @Table(name="patients")
 public class Patient {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
-    private @Column(name="PATIENT_NAME") String name;
+    private @Column(name="PATIENT_NAME") String patientName;
     private @Column(name="PATIENT_DOB") LocalDate dateOfBirth;
     public Patient() {}
-    public Patient(String name, LocalDate dateOfBirth) {
-        this.name = name;
+    public Patient(String patientName, LocalDate dateOfBirth) {
+        this.patientName = patientName;
         this.dateOfBirth = dateOfBirth;
     }
 
     public Long getId() {
         return id;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName(){
-        return name;
+    public String getPatientName(){
+        return patientName;
+    }
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
@@ -44,7 +44,7 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + this.id + ", name='" + this.name + '\'' + ", dateOfBirth='" + this.dateOfBirth + '\'' + '}';
+        return "Patient{" + "id=" + this.id + ", name='" + this.patientName + '\'' + ", dateOfBirth='" + this.dateOfBirth + '\'' + '}';
     }
 
 
