@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.annotation.Retention;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -125,7 +124,7 @@ public class PatientController {
      * api/patients
      *
      * @param patient
-     * @return
+     * @return map of new patient and success/failure message
      */
     @PostMapping
     public ResponseEntity<Map<String, Object>> createPatient(@RequestBody Patient patient) {
