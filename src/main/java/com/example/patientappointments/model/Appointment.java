@@ -16,6 +16,7 @@ public class Appointment {
     private @Column(name="TIME") LocalTime appointmentTime;
     private @Transient String patientName;
 
+    // Constructors
     public Appointment(){}
     public Appointment(Long patientId, LocalDate appointmentDate, LocalTime appointmentTime) {
         this.patientId = patientId;
@@ -23,40 +24,34 @@ public class Appointment {
         this.appointmentTime = appointmentTime;
     }
 
+    // Getters
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getPatientID() {
         return patientId;
     }
-
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
-
     public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
-
-    public void setAppointmentDate(LocalDate appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
     public LocalTime getAppointmentTime() { return appointmentTime; }
-
-    public void setAppointmentTime(LocalTime appointmentTime) {
-        this.appointmentTime = appointmentTime;
-    }
-
     public  String getPatientName() {
         return patientName;
     }
 
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+    public void setAppointmentTime(LocalTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
     public void setPatientName(String patientName) {
         this.patientName = patientName;
     }

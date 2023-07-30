@@ -54,7 +54,7 @@ public class PatientController {
 
     /**
      * Get Patient By Name API
-     * Take in a patient name and find patient with that name
+     * Takes in a patient name and find patient with that name
      * (may have multiple patients with same name)
      *
      * api/patients/name/Kamala%20Harris
@@ -72,6 +72,16 @@ public class PatientController {
         }
     }
 
+    /**
+     * Get Patient By Date of Birth API
+     * Takes in a date of birth, returns patient if found
+     * Returns list of patients if present, else empty list
+     *
+     * api/patients/dob?dateOfBirth=01-06-1995
+     *
+     * @param dateOfBirth
+     * @return list of patients
+     */
     @GetMapping("/dob")
     public ResponseEntity<List<Patient>> getPatientByDateOfBirth(
             @RequestParam @DateTimeFormat(pattern="MM-dd-yyyy") LocalDate dateOfBirth) {
@@ -82,6 +92,17 @@ public class PatientController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    /**
+     * Get Patient By Name and Date of Birth API
+     * Takes in a name and dateOfBirth, if found returns patient
+     *
+     * api/patients/name-and-dob?name=Kamala%20Harris&dateOfBirth=10-20-1964
+     *
+     * @param name
+     * @param dateOfBirth
+     * @return patient
+     */
     @GetMapping("/name-and-dob")
     public ResponseEntity<Patient> getPatientByNameAndDateOfBirth(
             @RequestParam String name,
@@ -94,6 +115,18 @@ public class PatientController {
         }
     }
 
+    /**
+     * Create Patient API
+     * Takes in patient data in JSON format
+     * Catch PatientException if patient already exists
+     * Call all exception for all other problems
+     * Return new patient data with success/failure message
+     *
+     * api/patients
+     *
+     * @param patient
+     * @return
+     */
     @PostMapping
     public ResponseEntity<Map<String, Object>> createPatient(@RequestBody Patient patient) {
         try{
@@ -117,12 +150,32 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    /**
+     * Create Multiple Patients API
+     * Takes in a list of patient data in JSON format
+     * Results all requested patients with success/failure message
+     *
+     * api/patients/multiple
+     *
+     * @param patients
+     * @return list of patients
+     */
     @PostMapping("/multiple")
     public ResponseEntity<Map<Patient, String>> createMultiplePatients(@RequestBody List<Patient> patients) {
         Map<Patient, String> newPatients = patientService.createMultiplePatients(patients);
         return ResponseEntity.ok(newPatients);
     }
 
+    /**
+     * Delete Patient API
+     * Delete patient associated with given patientId
+     *
+     * api/patients/1
+     *
+     * @param patientId
+     * @return
+     */
     @DeleteMapping("/{patientId}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long patientId) {
         try{

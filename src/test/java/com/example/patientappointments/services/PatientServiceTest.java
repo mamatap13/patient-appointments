@@ -27,7 +27,7 @@ public class PatientServiceTest {
     private PatientService patientService;
 
     @Test
-    public void testPatientService_GellAllPatients_ReturnSavedPatients() {
+    public void testPatientService_GetAllPatients_ReturnSavedPatients() {
         // Arrange
         List<Patient> patients = Arrays.asList(
                 new Patient("John Doe", LocalDate.of(1985, 1, 2)),

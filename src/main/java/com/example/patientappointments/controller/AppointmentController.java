@@ -45,8 +45,10 @@ public class AppointmentController {
      * Appointments By Patient Name API
      * Takes in a patient's name and finds the appointments associated with that patient
      *
-     * On success: returns a list of appointments for this patient
+     * On success: returns a list of appointments for given patient
      *             if no patient name is found, returns an empty list
+     *
+     * api/appointments/patient?patientName=Kamala%20Harris
      *
      * @param patientName
      * @return list of appointments
@@ -62,7 +64,7 @@ public class AppointmentController {
      * Takes in a patient's name and find all appointments associated with that name
      * May have multiple patients with the same name
      *
-     * api/date?appointmentDate=
+     * api/date?appointmentDate="2023-09-30"
      *
      * @param appointmentDate
      * @return list of appointments
@@ -73,6 +75,17 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
+    /**
+     * Create Appointments API
+     * Takes a map of data in JSON format, creates a new appointment
+     * Catch DateTimeParseException if invalid date or time format
+     * Catch AppointmentException if date and time are not available
+     * Catch all exception
+     *
+     * Return map with appointmentData and success/failure message
+     * @param appointmentData
+     * @return map
+     */
     @PostMapping
     public ResponseEntity<Map<String, Object>> createAppointment(@RequestBody Map<String, Object> appointmentData) {
         try {
@@ -105,8 +118,17 @@ public class AppointmentController {
 
     }
 
+    /**
+     * Create Multiple Patients API
+     * Takes in a list of data in JSON format in request body
+     * Catch exceptions in appointmentService.java
+     * Return map of new appointments with messages of success/failure
+     *
+     * @param appointmentData
+     * @return map of data
+     */
     @PostMapping("/multiple")
-    public ResponseEntity<Map<Map<String, Object>, String>> createMultiplePatients(@RequestBody List<Map<String, Object>> appointmentData) {
+    public ResponseEntity<Map<Map<String, Object>, String>> createMultipleAppointments(@RequestBody List<Map<String, Object>> appointmentData) {
         Map<Map<String, Object>, String> newAppointments = appointmentService.createMultipleAppointments(appointmentData);
         return ResponseEntity.ok(newAppointments);
     }

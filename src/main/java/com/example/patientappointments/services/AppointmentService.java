@@ -34,6 +34,10 @@ public class AppointmentService {
         this.patientService = patientService;
     }
 
+    /**
+     * Get all appointments from database
+     * @return list of appointments
+     */
     public List<Appointment> getAllAppointments() {
         List<Appointment> appointments = appointmentRepository.findAll();
         for(Appointment appointment : appointments) {
@@ -44,10 +48,20 @@ public class AppointmentService {
 
     }
 
+    /**
+     * Get patient name associated with id
+     * @param id
+     * @return patient
+     */
     public String getPatientNameById(Long id) {
         return appointmentRepository.findPatientNameById(id);
     }
 
+    /**
+     * Get appointments by patient name (Appointment(patientid, apptDate, apptTime)
+     * @param patientName
+     * @return list of appointments
+     */
     public List<Appointment> getAppointmentsByPatientName(String patientName) {
         List<Appointment> appointments = appointmentRepository.findAppointmentsByPatientNameIgnoreCase(patientName);
         for(Appointment appointment : appointments) {
@@ -57,15 +71,29 @@ public class AppointmentService {
         return appointments;
     }
 
+    /**
+     * Get all appointmets on given date
+     * @param appointmentDate
+     * @return list of appointments
+     */
     public List<Appointment> getAppointmentsByDate(LocalDate appointmentDate) {
         List<Appointment> appointments = appointmentRepository.findAppointmentsByDate(appointmentDate);
         for(Appointment appointment : appointments) {
             String name = getPatientNameById(appointment.getPatientID());
             appointment.setPatientName(name);
         }
-        return  appointments;
+        return appointments;
     }
 
+    /**
+     * Create a new appointment, if date and time are available, otherwise throw exception
+     * If patient does not exist, create new patient
+     * @param patientName
+     * @param dateOfBirth
+     * @param appointmentDate
+     * @param appointmentTime
+     * @return saved appointment
+     */
     public Appointment createAppointment(String patientName, LocalDate dateOfBirth, LocalDate appointmentDate, LocalTime appointmentTime) {
         Appointment existingAppointment = appointmentRepository.findAppointmentByDateAndTime(appointmentDate, appointmentTime);
         if(existingAppointment != null) {
@@ -84,6 +112,12 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    /**
+     * Create multiple appointments, check availability, check existing patients
+     * Return map of all requested appointments with message indicating success or failure of appt creation
+     * @param appointmentRequests
+     * @return map
+     */
     public Map<Map<String, Object>, String> createMultipleAppointments(List<Map<String, Object>> appointmentRequests) {
         Map<Map<String, Object>, String> requestedAppointments = new LinkedHashMap<>();
 
@@ -120,6 +154,12 @@ public class AppointmentService {
         return requestedAppointments;
     }
 
+    /**
+     * Check appointment availability
+     * @param appointmentDate
+     * @param appointmentTime
+     * @return boolean
+     */
     public boolean isAppointmentAvailable(LocalDate appointmentDate, LocalTime appointmentTime) {
         return appointmentRepository.findAppointmentByDateAndTime(appointmentDate, appointmentTime) == null;
     }
