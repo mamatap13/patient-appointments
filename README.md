@@ -5,6 +5,9 @@ Java and Spring Boot. It provides functionality to retrieve a list of patients a
 scheduled appointments for a selected day. It can also create new patients and schedule 
 appointments.
 
+### Setup Requirements
+- JAR file is in project folder
+
 ### API Documentation
 
 - API calls are all preloaded into a Postman collection, available in the .zip file
