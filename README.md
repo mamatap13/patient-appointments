@@ -66,3 +66,5 @@ java -jar patient-appointments/target/patient-appointments-0.0.1-SNAPSHOT.jar
 - Current version uses an H2 database (Spring Boot in-memory db), upgrade to PostgreSQL 
 - Current version does not have appointment end time, in future adding end time will allow more
 detailed checks for overlapping appointments
+- Allow more date formats: "MM-dd-yyyy' and "July 30, 2023"
+- Add AM/PM to time formatting
