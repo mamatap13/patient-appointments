@@ -70,7 +70,7 @@ public class AppointmentController {
      * @return list of appointments
      */
     @GetMapping("/date")
-    public ResponseEntity<List<Appointment>> getAppointmentsByPatientDate(@RequestParam("appointmentDate") LocalDate appointmentDate) {
+    public ResponseEntity<List<Appointment>> getAppointmentsByDate(@RequestParam("appointmentDate") LocalDate appointmentDate) {
         List<Appointment> appointments = appointmentService.getAppointmentsByDate(appointmentDate);
         return ResponseEntity.ok(appointments);
     }
